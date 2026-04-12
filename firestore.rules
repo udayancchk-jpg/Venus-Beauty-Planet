@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidBooking(data) {
+      return data.fullName is string && data.fullName.size() > 0 && data.fullName.size() < 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() >= 10 && data.phoneNumber.size() <= 15 &&
+             data.serviceId is string &&
+             data.date is string && data.date.matches("^\\d{4}-\\d{2}-\\d{2}$") &&
+             data.timeSlot is string;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "udayancchk@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    match /bookings/{bookingId} {
+      // Anyone can create a booking
+      allow create: if isValidBooking(request.resource.data);
+      
+      // Allow public listing ONLY for the purpose of checking availability (date filter)
+      // Note: This is a prototype rule. In production, consider a separate availability collection.
+      allow list: if true; 
+      
+      // Only admins or the person who made the booking (if authenticated) can read details
+      allow get: if isAdmin() || (isAuthenticated() && resource.data.email == request.auth.token.email);
+    }
+    
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
