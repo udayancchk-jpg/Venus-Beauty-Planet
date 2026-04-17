@@ -46,6 +46,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
+    { name: 'AI Consultant', href: '/consultant' },
     { name: 'Services', href: '/#services' },
     { name: 'Experts', href: '/#team' },
     { name: 'Gallery', href: '/#gallery' },
@@ -63,7 +64,7 @@ export function Navbar() {
             <Sparkles className="text-wine w-6 h-6" />
           </div>
           <span className="text-2xl font-serif font-bold tracking-tighter text-gold">
-            VENUS <span className="text-soft-white font-light">BEAUTY</span>
+            VENUS <span className="text-soft-white font-light">SPA</span>
           </span>
         </Link>
 
@@ -202,15 +203,15 @@ export function Hero() {
             <Award className="w-4 h-4" /> Premium Beauty Destination in Agartala
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-soft-white leading-[1.1] mb-6">
-            Tired of Bad Salon Results? <br />
-            <span className="text-gold">Get the Look You Actually Want.</span>
+            Your Best Look Isn’t a Dream. <br />
+            <span className="text-gold">It’s One Appointment Away.</span>
           </h1>
           <p className="text-lg text-soft-white/80 mb-10 max-w-xl leading-relaxed">
-            Expert hair, skin & makeup services crafted to match your style, your occasion, and your personality. Experience luxury like never before.
+            Expert stylists, premium care, and real transformations that you can see and feel from the very first visit.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="#booking" className="btn-gold text-center">
-              Book Appointment
+              Book Your Appointment Now
             </a>
             <a href="#services" className="px-8 py-3 border border-gold/50 text-gold font-semibold rounded-sm hover:bg-gold/10 transition-all text-center">
               Explore Services
@@ -232,7 +233,7 @@ export function Hero() {
               <div className="flex items-center gap-1 text-gold">
                 {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
               </div>
-              <p className="text-sm text-soft-white/60">Trusted by 2,000+ happy clients</p>
+              <p className="text-sm text-soft-white/60">⭐ Rated 4.9 by 300+ happy clients in Agartala</p>
             </div>
           </div>
         </motion.div>
@@ -314,7 +315,7 @@ export function About() {
             Elevating Beauty Standards in Agartala
           </h3>
           <p className="text-soft-white/70 text-lg mb-6 leading-relaxed">
-            At Venus Beauty Planet, we believe beauty is more than skin deep—it's about confidence, personalization, and transformation. As Agartala's premier unisex destination, we combine world-class expertise with a modern luxury touch.
+            At Venus Beauty Spa, we believe beauty is more than skin deep—it's about confidence, personalization, and transformation. As Agartala's premier unisex destination, we combine world-class expertise with a modern luxury touch.
           </p>
           <p className="text-soft-white/70 text-lg mb-8 leading-relaxed">
             Our team of certified professionals is dedicated to delivering results that don't just meet expectations but exceed them. From high-end hair transformations to rejuvenating spa therapies, every service is a masterpiece of skill and hygiene.
@@ -449,7 +450,7 @@ export function Footer() {
               <Sparkles className="text-wine w-5 h-5" />
             </div>
             <span className="text-xl font-serif font-bold tracking-tighter text-gold">
-              VENUS <span className="text-soft-white font-light">BEAUTY</span>
+              VENUS <span className="text-soft-white font-light">SPA</span>
             </span>
           </Link>
           <p className="text-soft-white/50 text-sm leading-relaxed mb-8">
@@ -474,6 +475,7 @@ export function Footer() {
             {[
               { name: 'Home', href: '/' },
               { name: 'About Us', href: '/about' },
+              { name: 'AI Consultant', href: '/consultant' },
               { name: 'Services', href: '/#services' },
               { name: 'Our Experts', href: '/#team' },
               { name: 'Gallery', href: '/#gallery' },
@@ -506,14 +508,23 @@ export function Footer() {
           <ul className="space-y-6">
             <li className="flex items-start gap-4">
               <MapPin className="text-gold w-5 h-5 shrink-0" />
-              <p className="text-soft-white/60 text-sm">
-                Near JPC Club / Math Chowmuhani, <br />
-                Agartala, Tripura, India
-              </p>
+              <div>
+                <p className="text-soft-white/60 text-sm">
+                  Office Lane, Agartala, Tripura 799001
+                </p>
+                <a 
+                  href="https://share.google/asJHl6V3gkffK2eUO" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gold text-[10px] uppercase tracking-widest hover:underline mt-2 inline-block"
+                >
+                  View on Maps
+                </a>
+              </div>
             </li>
             <li className="flex items-center gap-4">
               <Phone className="text-gold w-5 h-5 shrink-0" />
-              <p className="text-soft-white/60 text-sm">+91 98765 43210</p>
+              <p className="text-soft-white/60 text-sm">+91 69099 25434</p>
             </li>
             <li className="flex items-center gap-4">
               <Clock className="text-gold w-5 h-5 shrink-0" />
@@ -525,7 +536,7 @@ export function Footer() {
       
       <div className="max-w-7xl mx-auto pt-8 border-t border-gold/10 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-soft-white/30 text-xs">
-          © 2026 Venus Beauty Planet. All rights reserved.
+          © 2026 Venus Beauty Spa. All rights reserved.
         </p>
         <div className="flex items-center gap-6">
           <a href="#" className="text-soft-white/30 hover:text-gold text-xs transition-colors">Privacy Policy</a>

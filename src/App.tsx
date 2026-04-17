@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { Navbar, Hero, About, WhyChooseUs, Gallery, Footer } from './components/Sections';
 import { Services, Team, Testimonials, Contact } from './components/MoreSections';
 import BookingSystem from './components/BookingSystem';
+import AIChatbot from './components/AIChatbot';
 import AboutPage from './pages/AboutPage';
+import ConsultantPage from './pages/ConsultantPage';
 import { motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Camera, ChevronRight, Wand2 } from 'lucide-react';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -31,6 +33,48 @@ function HomePage() {
       
       <About />
       
+      <section className="section-padding bg-wine/10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full pointer-events-none opacity-10">
+           <Sparkles className="absolute top-10 right-10 w-64 h-64 text-gold" />
+        </div>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+           <div className="lg:w-1/2">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 px-4 py-1 rounded-full text-gold text-sm font-medium mb-6"
+              >
+                <Camera className="w-4 h-4" /> AI Innovation
+              </motion.div>
+              <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6">Personalized AI <br />Consultations</h2>
+              <p className="text-soft-white/60 text-lg mb-8 leading-relaxed">
+                Experience the first AI-powered beauty analysis in Agartala. Upload a photo and let our advanced neural networks provide expert recommendations tailored to your unique features.
+              </p>
+              <Link to="/consultant" className="btn-gold inline-flex items-center gap-2">
+                 Get Free Analysis <ChevronRight className="w-4 h-4" />
+              </Link>
+           </div>
+           <div className="lg:w-1/2 relative">
+              <div className="aspect-square bg-charcoal rounded-3xl border border-gold/20 flex items-center justify-center p-8 shadow-2xl overflow-hidden group">
+                 <img 
+                   src="https://picsum.photos/seed/face-scan/800/800" 
+                   alt="AI Scan Preview" 
+                   className="w-full h-full object-cover rounded-2xl opacity-50 transition-transform duration-700 group-hover:scale-110"
+                   referrerPolicy="no-referrer"
+                 />
+                 <div className="absolute inset-x-0 h-1 bg-gold shadow-[0_0_15px_#E0B973] animate-scanline z-10"></div>
+                 <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-wine/80 px-6 py-3 rounded-full border border-gold/30 backdrop-blur-sm">
+                       <p className="text-gold font-bold flex items-center gap-2">
+                          <Wand2 className="w-5 h-5 animate-pulse" /> Neural Analysis Ready
+                       </p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </section>
+
       <Services />
       
       <WhyChooseUs />
@@ -82,9 +126,11 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/consultant" element={<ConsultantPage />} />
         </Routes>
         
         <Footer />
+        <AIChatbot />
 
         {/* Floating Actions */}
         <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
@@ -94,7 +140,7 @@ export default function App() {
             animate={{ scale: 1, opacity: 1 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            href="https://wa.me/919876543210"
+            href="https://wa.me/916909925434"
             target="_blank"
             rel="noopener noreferrer"
             className="w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:shadow-[#25D366]/40 transition-shadow duration-300"

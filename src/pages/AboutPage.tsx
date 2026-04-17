@@ -39,7 +39,7 @@ export default function AboutPage() {
             className="max-w-2xl mx-auto"
           >
             <p className="text-xl text-soft-white/80 leading-relaxed italic font-serif">
-              "We noticed a pattern: people leaving salons feeling 'done' but not 'themselves.' Venus Beauty Planet was created to bridge that gap—where expert technique meets your personal identity."
+              "We noticed a pattern: people leaving salons feeling 'done' but not 'themselves.' Venus Beauty Spa was created to bridge that gap—where expert technique meets your personal identity."
             </p>
           </motion.div>
         </div>
@@ -50,7 +50,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-serif text-gold mb-6">Why You Can Trust Us</h2>
           <p className="text-lg text-soft-white/70 leading-relaxed">
-            With years of dedicated experience in Agartala, our team doesn't just follow trends—we understand the science of beauty and the art of personalization. Every professional at Venus Beauty Planet is trained to listen first, ensuring that your unique features and lifestyle are at the heart of every service we provide.
+            With years of dedicated experience in Agartala, our team doesn't just follow trends—we understand the science of beauty and the art of personalization. Every professional at Venus Beauty Spa is trained to listen first, ensuring that your unique features and lifestyle are at the heart of every service we provide.
           </p>
         </div>
       </section>

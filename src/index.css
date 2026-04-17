@@ -11,6 +11,15 @@
   --color-soft-white: #F5F5F5;
 }
 
+@keyframes scanline {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.animate-scanline {
+  animation: scanline 3s linear infinite;
+}
+
 @layer base {
   body {
     @apply bg-charcoal text-soft-white font-sans antialiased;

@@ -71,6 +71,7 @@ export default function BookingSystem() {
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -108,10 +109,14 @@ export default function BookingSystem() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDate || !selectedTime) return;
+    setShowConfirmation(true);
+  };
 
+  const confirmBooking = async () => {
+    setShowConfirmation(false);
     setIsSubmitting(true);
     const service = ALL_SERVICES.find(s => s.id === formData.serviceId);
 
@@ -120,8 +125,8 @@ export default function BookingSystem() {
       await addDoc(collection(db, 'bookings'), {
         ...formData,
         serviceName: service?.name || '',
-        date: format(selectedDate, 'yyyy-MM-dd'),
-        timeSlot: selectedTime,
+        date: format(selectedDate!, 'yyyy-MM-dd'),
+        timeSlot: selectedTime!,
         createdAt: serverTimestamp()
       });
 
@@ -134,8 +139,8 @@ export default function BookingSystem() {
         body: JSON.stringify({
           ...formData,
           serviceName: service?.name || '',
-          date: format(selectedDate, 'yyyy-MM-dd'),
-          timeSlot: selectedTime
+          date: format(selectedDate!, 'yyyy-MM-dd'),
+          timeSlot: selectedTime!
         })
       });
 
@@ -169,8 +174,63 @@ export default function BookingSystem() {
     );
   }
 
+  const selectedService = ALL_SERVICES.find(s => s.id === formData.serviceId);
+
   return (
-    <div className="max-w-6xl mx-auto bg-charcoal border border-gold/20 rounded-xl overflow-hidden shadow-2xl">
+    <div className="max-w-6xl mx-auto bg-charcoal border border-gold/20 rounded-xl overflow-hidden shadow-2xl relative">
+      {/* Confirmation Modal */}
+      <AnimatePresence>
+        {showConfirmation && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-charcoal/80 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              className="bg-wine p-8 rounded-2xl border border-gold/30 max-w-md w-full shadow-2xl"
+            >
+              <h3 className="text-2xl font-serif text-gold mb-6 text-center">Review Booking</h3>
+              
+              <div className="space-y-4 mb-8">
+                <div className="flex justify-between border-b border-gold/10 pb-2">
+                  <span className="text-soft-white/60 text-sm italic">Name:</span>
+                  <span className="text-soft-white font-medium">{formData.fullName}</span>
+                </div>
+                <div className="flex justify-between border-b border-gold/10 pb-2">
+                  <span className="text-soft-white/60 text-sm italic">Phone:</span>
+                  <span className="text-soft-white font-medium">{formData.phoneNumber}</span>
+                </div>
+                <div className="flex justify-between border-b border-gold/10 pb-2">
+                  <span className="text-soft-white/60 text-sm italic">Service:</span>
+                  <span className="text-soft-white font-medium">{selectedService?.name}</span>
+                </div>
+                <div className="flex justify-between border-b border-gold/10 pb-2">
+                  <span className="text-soft-white/60 text-sm italic">Date:</span>
+                  <span className="text-soft-white font-medium">{selectedDate ? format(selectedDate, 'PPP') : ''}</span>
+                </div>
+                <div className="flex justify-between border-b border-gold/10 pb-2">
+                  <span className="text-soft-white/60 text-sm italic">Time:</span>
+                  <span className="text-soft-white font-medium">{selectedTime}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={confirmBooking}
+                  className="btn-gold w-full !py-3"
+                >
+                  Confirm & Submit
+                </button>
+                <button 
+                  onClick={() => setShowConfirmation(false)}
+                  className="w-full text-soft-white/60 hover:text-soft-white transition-colors text-sm font-medium"
+                >
+                  Edit Details
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Left Side: Calendar & Time */}
         <div className="p-8 bg-wine/10 border-r border-gold/10">

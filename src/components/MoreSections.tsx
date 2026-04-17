@@ -115,7 +115,7 @@ export function Team() {
 
 export function Testimonials() {
   return (
-    <section className="section-padding bg-charcoal relative overflow-hidden">
+    <section id="testimonials" className="section-padding bg-charcoal relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-gold/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-wine/10 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
@@ -162,14 +162,22 @@ export function Contact() {
             Ready for your transformation? Visit us at our premium location in Agartala or reach out to us for any queries.
           </p>
 
-          <div className="space-y-8">
+          <div className="space-y-8 mb-10">
             <div className="flex items-start gap-6">
               <div className="w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center shrink-0">
                 <MapPin className="text-gold w-6 h-6" />
               </div>
               <div>
                 <h4 className="text-gold font-bold mb-2">Our Location</h4>
-                <p className="text-soft-white/60">Near JPC Club / Math Chowmuhani, Agartala, Tripura, India</p>
+                <p className="text-soft-white/60">Office Lane, Agartala, Tripura 799001</p>
+                <a 
+                  href="https://share.google/asJHl6V3gkffK2eUO" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-gold text-sm mt-3 hover:underline"
+                >
+                  <MapPin className="w-4 h-4" /> View on Google Maps
+                </a>
               </div>
             </div>
             <div className="flex items-start gap-6">
@@ -178,7 +186,7 @@ export function Contact() {
               </div>
               <div>
                 <h4 className="text-gold font-bold mb-2">Phone Number</h4>
-                <p className="text-soft-white/60">+91 98765 43210</p>
+                <p className="text-soft-white/60">+91 69099 25434</p>
               </div>
             </div>
             <div className="flex items-start gap-6">
@@ -195,13 +203,13 @@ export function Contact() {
 
         <div className="h-[450px] rounded-2xl overflow-hidden border-4 border-gold/10 shadow-2xl">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.123456789!2d91.28!3d23.83!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDQ5JzQ4LjAiTiA5McKwMTYnNDguMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
+            src="https://maps.google.com/maps?q=Venus%20Beauty%20Spa%20Agartala%20Office%20Lane&t=&z=15&ie=UTF8&iwloc=&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
             allowFullScreen={true} 
             loading="lazy"
-            title="Venus Beauty Planet Location"
+            title="Venus Beauty Spa Location"
           ></iframe>
         </div>
       </div>
