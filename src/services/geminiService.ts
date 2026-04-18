@@ -1,13 +1,11 @@
 import { GoogleGenAI, Type, FunctionDeclaration } from "@google/genai";
 import { ALL_SERVICES } from "../lib/constants";
 
-const getAI = () => {
-  const apiKey = typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : '';
-  if (!apiKey) {
-    console.warn("GEMINI_API_KEY is not defined. AI features may not work.");
-  }
-  return new GoogleGenAI({ apiKey: apiKey || '' });
-};
+const ai = new GoogleGenAI({ 
+  apiKey: process.env.GEMINI_API_KEY || '' 
+});
+
+const getAI = () => ai;
 
 const salonInfo = `
 Salon Name: Venus Beauty Spa
@@ -75,30 +73,28 @@ export async function analyzeImage(base64Image: string, mimeType: string) {
     const ai = getAI();
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: [
-        {
-          parts: [
-            {
-              inlineData: {
-                data: base64Image,
-                mimeType: mimeType
-              }
-            },
-            {
-              text: `You are a professional Beauty Consultant at Venus Beauty Spa. 
-              Analyze this image (face, hair, skin, or nails) and provide:
-              1. A brief professional observation of what you see.
-              2. Personalized recommendations from our salon services: ${salonInfo}
-              3. Practical tips for daily care at home.
-              
-              Keep the tone luxurious, encouraging, and expert. Format the response with clear headings and bullet points using Markdown. Be specific about which services we offer would benefit them.`
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              data: base64Image,
+              mimeType: mimeType
             }
-          ]
-        }
-      ]
+          },
+          {
+            text: `You are a professional Beauty Consultant at Venus Beauty Spa. 
+            Analyze this image (face, hair, skin, or nails) and provide:
+            1. A brief professional observation of what you see.
+            2. Personalized recommendations from our salon services: ${salonInfo}
+            3. Practical tips for daily care at home.
+            
+            Keep the tone luxurious, encouraging, and expert. Format the response with clear headings and bullet points using Markdown. Be specific about which services we offer would benefit them.`
+          }
+        ]
+      }
     });
 
-    return response.text;
+    return response.text || "I've analyzed your features. To give you the best results, I recommend visiting Venus Beauty Spa for a professional in-person consultation.";
   } catch (error) {
     console.error("Gemini Vision Error:", error);
     throw error;

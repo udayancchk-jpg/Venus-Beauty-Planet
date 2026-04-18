@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, Upload, Wand2, Loader2, Sparkles, CheckCircle2, AlertCircle, RefreshCw, ChevronRight } from 'lucide-react';
+import { Camera, Upload, Wand2, Loader2, Sparkles, CheckCircle2, AlertCircle, RefreshCw, ChevronRight, Info } from 'lucide-react';
 import { analyzeImage as analyzeWithGemini } from '../services/geminiService';
 import Markdown from 'react-markdown';
 import { cn } from '../lib/utils';
@@ -41,10 +41,30 @@ export default function BeautyConsultant() {
       const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
       
       const result = await analyzeWithGemini(base64Data, mimeType);
-      setAnalysis(result || "I couldn't generate a report. Please try another photo.");
+      setAnalysis(result || "I couldn't generate a specific report. Please try another photo.");
     } catch (err) {
-      setError("Analysis failed. Please try a clearer photo or check your connection.");
-      console.error(err);
+      console.error("AI Analysis Error:", err);
+      // Fallback report
+      setAnalysis(`### Venus Beauty Spa: Preliminary Assessment
+
+While we couldn't process your photo for detailed textural analysis right now, our beauty experts have prepared this general guidance for you:
+
+**1. Observations & Guidance**
+Maintaining a healthy moisture barrier is key for all skin and hair types in the Agartala climate. Consistent hydration and protection are essential.
+
+**2. Recommended Signature Services**
+*   **Signature HydraFacial**: Ideal for all skin types to deeply cleanse and rejuvenate.
+*   **Luxe Hair Spa**: Helps restore essential nutrients and moisture to your hair.
+*   **Herbal Therapy**: A holistic approach to wellness and relaxation.
+
+**3. Daily Professional Tips**
+*   **Sun Protection**: Apply broad-spectrum SPF daily.
+*   **Hydration**: Drink 2-3 liters of water to maintain skin elasticity.
+*   **Routine**: Stick to a gentle morning and evening cleansing ritual.
+
+*We invite you to visit us at Office Lane for a complimentary in-person consultation with our experts!*`);
+      // Inform the user that a general report was generated
+      setError("Note: Using a general assessment as visual scanning is currently unavailable.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -61,8 +81,23 @@ export default function BeautyConsultant() {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Left Side: Upload Area */}
         <div className="p-8 bg-wine/10 border-r border-gold/10">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-serif text-gold mb-2">Visual Consultant</h3>
+          <div className="text-center mb-8 relative group/info">
+            <div className="flex items-center justify-center gap-2">
+              <h3 className="text-2xl font-serif text-gold">Visual Consultant</h3>
+              <div className="relative">
+                <Info className="w-4 h-4 text-gold/50 cursor-help hover:text-gold transition-colors" />
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-charcoal border border-gold/30 rounded-lg shadow-2xl opacity-0 invisible group-hover/info:opacity-100 group-hover/info:visible transition-all z-50 pointer-events-none">
+                  <p className="text-gold text-xs font-bold mb-1">Tips for best analysis:</p>
+                  <ul className="text-soft-white/80 text-[10px] text-left list-disc list-inside space-y-1">
+                    <li>Use bright, natural daylight</li>
+                    <li>Keep a neutral expression</li>
+                    <li>Focus clearly on face, hair, or skin</li>
+                    <li>Remove glasses if checking skin</li>
+                  </ul>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-gold/30"></div>
+                </div>
+              </div>
+            </div>
             <p className="text-soft-white/60 text-sm italic">Upload a photo for instant AI skin & hair analysis</p>
           </div>
 
