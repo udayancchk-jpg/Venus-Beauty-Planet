@@ -72,17 +72,19 @@ export async function* analyzeImage(base64Image: string, mimeType: string) {
   try {
     const ai = getAI();
     const result = await ai.models.generateContentStream({
-      model: "gemini-3-flash-preview",
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              data: base64Image,
-              mimeType: mimeType
-            }
-          },
-          {
-            text: `You are a confident, expert Beauty Consultant at Venus Beauty Spa. 
+      model: "gemini-flash-latest",
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              inlineData: {
+                data: base64Image,
+                mimeType: mimeType
+              }
+            },
+            {
+              text: `You are a confident, expert Beauty Consultant at Venus Beauty Spa. 
             Analyze this image (focusing on face, hair, skin, or nails) and provide a professional report.
             
             STRICT BEHAVIOR RULES:
@@ -111,13 +113,16 @@ export async function* analyzeImage(base64Image: string, mimeType: string) {
             EXPECTED_RESULTS:
             - [clear outcome]
             - [clear outcome]`
-          }
-        ]
-      }
+            }
+          ]
+        }
+      ]
     });
 
     for await (const chunk of result) {
-      yield chunk.text;
+      if (chunk.text) {
+        yield chunk.text;
+      }
     }
   } catch (error) {
     console.error("Gemini Vision Error:", error);
