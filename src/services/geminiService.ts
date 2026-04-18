@@ -68,10 +68,10 @@ export async function chatWithGemini(message: string, history: { role: string, p
   }
 }
 
-export async function analyzeImage(base64Image: string, mimeType: string) {
+export async function* analyzeImage(base64Image: string, mimeType: string) {
   try {
     const ai = getAI();
-    const response = await ai.models.generateContent({
+    const result = await ai.models.generateContentStream({
       model: "gemini-3-flash-preview",
       contents: {
         parts: [
@@ -82,19 +82,43 @@ export async function analyzeImage(base64Image: string, mimeType: string) {
             }
           },
           {
-            text: `You are a professional Beauty Consultant at Venus Beauty Spa. 
-            Analyze this image (face, hair, skin, or nails) and provide:
-            1. A brief professional observation of what you see.
-            2. Personalized recommendations from our salon services: ${salonInfo}
-            3. Practical tips for daily care at home.
+            text: `You are a confident, expert Beauty Consultant at Venus Beauty Spa. 
+            Analyze this image (focusing on face, hair, skin, or nails) and provide a professional report.
             
-            Keep the tone luxurious, encouraging, and expert. Format the response with clear headings and bullet points using Markdown. Be specific about which services we offer would benefit them.`
+            STRICT BEHAVIOR RULES:
+            1. Never describe the skin/hair as perfect, ideal, or fully healthy.
+            2. Always position it as "moderate" or "can be improved".
+            3. Use soft improvement language like: "needs a boost", "can look more fresh", "not at its best".
+            4. Avoid negative or harsh words.
+            5. Goal: Gently push the user toward a salon service.
+            
+            CONTENT RULES:
+            1. Use very simple English. No paragraphs.
+            2. Use short bullet points only.
+            3. No home remedies.
+            4. Suggest only ONE salon service from: ${salonInfo}
+            5. Focus on outcomes: grow, smooth, clear, shiny.
+            
+            Use this exact key-value format for parsing:
+            
+            SKIN_TYPE: [1 short line]
+            PRIMARY_CONCERN: [1-2 words like Dullness or Dryness]
+            SKIN_ISSUES: [2-3 short words separated by comma]
+            CURRENT_CONDITION:
+            - [simple problem]
+            - [simple problem]
+            RECOMMENDED_SERVICE: [Only the name of the salon service]
+            EXPECTED_RESULTS:
+            - [clear outcome]
+            - [clear outcome]`
           }
         ]
       }
     });
 
-    return response.text || "I've analyzed your features. To give you the best results, I recommend visiting Venus Beauty Spa for a professional in-person consultation.";
+    for await (const chunk of result) {
+      yield chunk.text;
+    }
   } catch (error) {
     console.error("Gemini Vision Error:", error);
     throw error;

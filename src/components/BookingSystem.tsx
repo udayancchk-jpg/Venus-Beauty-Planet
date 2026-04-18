@@ -260,19 +260,31 @@ export default function BookingSystem() {
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
               {TIME_SLOTS.map((slot) => {
                 const isBooked = bookedSlots.includes(slot);
-                const isPast = selectedDate && isSameDay(selectedDate, new Date()) && 
-                               isBefore(new Date(), new Date()); // Simplified past check
+                const isPast = (() => {
+                  if (!selectedDate || !isSameDay(selectedDate, new Date())) return false;
+                  
+                  // Simple time parsing for "10:00 AM" format
+                  const [time, modifier] = slot.split(' ');
+                  let [hours, minutes] = time.split(':').map(Number);
+                  if (modifier === 'PM' && hours < 12) hours += 12;
+                  if (modifier === 'AM' && hours === 12) hours = 0;
+                  
+                  const slotTime = new Date();
+                  slotTime.setHours(hours, minutes, 0, 0);
+                  
+                  return isBefore(slotTime, new Date());
+                })();
                 
                 return (
                   <button
                     key={slot}
-                    disabled={isBooked}
+                    disabled={isBooked || isPast}
                     onClick={() => setSelectedTime(slot)}
                     className={cn(
                       "py-3 px-2 text-sm font-medium rounded-md transition-all duration-200 border",
                       selectedTime === slot 
                         ? "bg-gold text-wine border-gold" 
-                        : isBooked 
+                        : (isBooked || isPast) 
                           ? "bg-charcoal/50 text-soft-white/20 border-white/5 cursor-not-allowed"
                           : "bg-charcoal text-soft-white/70 border-gold/20 hover:border-gold hover:text-gold"
                     )}
