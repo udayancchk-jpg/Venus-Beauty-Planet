@@ -8,12 +8,19 @@ const ai = new GoogleGenAI({
 const getAI = () => ai;
 
 const salonInfo = `
-Salon Name: Venus Beauty Spa
+VENUS BEAUTY SPA - SERVICES MENU:
+- Facials (Skin): Premium treatments for a radiant, healthy glow.
+- Hair Styling & Keratin (Hair): For smooth, shiny, and manageable hair.
+- Manicure & Pedicure (Nails): Complete nail care and grooming.
+- Thai Massage (Spa): Traditional massage for deep relaxation.
+- Aromatherapy (Spa): Massage using essential oils.
+- Oil Therapy (Spa): Rejuvenating skin treatments.
+- Full Body Spa (Spa): Revitalizing head-to-toe experience.
+- Waxing (Rica) (Salon): Hair removal for smooth skin.
+- Bridal Makeup (Salon): Stunning artistry for special days.
+
 Location: Office Lane, Agartala, Tripura 799001.
 WhatsApp: +91 69099 25434
-Opening Hours: 10:00 AM – 08:00 PM (All Days)
-Services: ${ALL_SERVICES.map(s => `${s.name} (${s.category}): ${s.description}`).join('\n')}
-Special Offer: ₹200 OFF on the first visit.
 `;
 
 const bookAppointmentDeclaration: FunctionDeclaration = {
@@ -91,8 +98,14 @@ export async function* analyzeImage(base64Image: string, mimeType: string) {
             1. Never describe the skin/hair as perfect, ideal, or fully healthy.
             2. Always position it as "moderate" or "can be improved".
             3. Use soft improvement language like: "needs a boost", "can look more fresh", "not at its best".
-            4. Avoid negative or harsh words.
-            5. Goal: Gently push the user toward a salon service.
+            4. Goal: Match the user's observed issue (Skin, Hair, or Nails) to the BEST salon service.
+            
+            SERVICE MATCHING LOGIC:
+            - If you see skin issues (dullness, dryness, texture): Recommend "Facials".
+            - If you see hair issues (frizz, split ends, dull hair): Recommend "Hair Styling & Keratin".
+            - If you see hands/feet or nails: Recommend "Manicure & Pedicure".
+            - If the person looks stressed or tired in general: Recommend "Full Body Spa" or "Thai Massage".
+            - Be specific. Don't always recommend the same thing. Look at the image features!
             
             CONTENT RULES:
             1. Use very simple English. No paragraphs.

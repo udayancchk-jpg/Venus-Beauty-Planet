@@ -131,17 +131,16 @@ export default function BeautyConsultant() {
       console.error("AI Analysis Error:", err);
       // Fallback report
       setHasStartedStreaming(true);
-      setAnalysis(`SKIN_TYPE: Mixed textures
-PRIMARY_CONCERN: Moderate dullness
-SKIN_ISSUES: Uneven tone, minor dryness
+      setAnalysis(`SKIN_TYPE: Professional assessment
+PRIMARY_CONCERN: Skin revitalization
+SKIN_ISSUES: Slight dullness, minor dryness
 CURRENT_CONDITION:
-- Needs a boost in moisture
-- Looks slightly dull and tired
-RECOMMENDED_SERVICE: Signature HydraFacial
+- Needs a boost in hydration
+- Appearance can be more fresh
+RECOMMENDED_SERVICE: Facials
 EXPECTED_RESULTS:
 - Give you a bright glow
-- Make your skin feel smooth
-- Help you look fresh`);
+- Make your skin feel smooth`);
       // Inform the user that a general report was generated
       setError("Note: Using a general assessment as visual scanning is currently unavailable.");
     } finally {
